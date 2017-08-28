@@ -1,0 +1,88 @@
+<!doctype html>
+<html ng-app="uploadApp">
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/default.min.css">
+        <link href="app.css" rel="stylesheet">
+
+        <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+
+        <script src="js/main.js"></script>
+        <script src="js/main-controller.js"></script>
+        <script src="js/banner-directive.js"></script>
+        <script src="js/custom-on-change-directive.js"></script>
+        <script src="js/upload-strategy-selector-directive.js"></script>
+    </head>
+    <body ng-controller="MainCtrl as vm">
+        <upload-banner></upload-banner>
+        <div class="container">
+
+            <h1 class="page-header">Upload a file</h1>
+
+            <form class="app-form" novalidate >
+                <div class="form-group">
+                    <upload-strategy-selector upload-strategy="vm.uploadStrategy"></upload-strategy-selector>
+                </div>
+                <div class="form-group">
+                    <label for="file">File</label>
+                    <input type="file" id="file" name="file" custom-on-change="vm.fileSelected">
+                    <p class="help-block">File Selected {{vm.selectedFileSize}}</p>
+                </div>
+                <button type="submit" class="btn btn-primary" ng-click="vm.uploadFile()">Submit</button>
+            </form>
+
+            <div>
+                <button type="submit" class="btn btn-primary" ng-click="vm.getSavedEntities()">Get Saved Entities</button>
+            </div>
+
+            <div class="row" id="userList">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-2">ID</th>
+                            <th class="col-xs-4">First Name</th>
+                            <th class="col-xs-4">Last Name</th>
+                            <th class="col-xs-2">Age</th>
+                            <th class="col-xs-4">Place</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="entity in vm.entities">
+                            <td class="col-xs-2">{{entity.id}}</td>
+                            <td class="col-xs-4">{{entity.firstName}}</td>
+                            <td class="col-xs-4">{{entity.lastName}}</td>
+                            <td class="col-xs-2">{{entity.age}}</td>
+                            <td class="col-xs-4">{{entity.place}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel panel-primary" ng-show="vm.uploadResponse != null || vm.errorOccurred">
+                <div class="panel-heading">Upload Result</div>
+                <div class="panel-body">
+                    <div ng-show="vm.errorOccurred">Sorry, an error occurred. Here is the error
+                        <pre class="error-json"></pre>
+                    </div>
+                    <div ng-show="!vm.errorOccurred">
+                        <div class="form-group">
+                            <label for="responseDate">Path</label>
+                            <input disabled class="form-control" name="path" id="path" value="{{vm.submittedUrl}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="responseDate">Submission time</label>
+                            <input disabled class="form-control" name="responseDate" id="responseDate" value="{{vm.response.date | date:'yyyy-MM-dd HH:mm:ss Z'}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="fileSizeThreshold">File size threshold</label>
+                            <input disabled class="form-control" name="fileSizeThreshold" id="fileSizeThreshold" value="{{vm.response.fileSizeThreshold}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

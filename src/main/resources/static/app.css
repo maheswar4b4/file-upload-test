@@ -1,0 +1,26 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    padding-top: 70px; /* Offset for banner */
+}
+
+.app-form {
+    padding: 1rem 10rem;
+}
+
+.error-json {
+    margin-top: 1rem;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td {
+    background-color: white;
+}
+
+.table-striped > tbody > tr:nth-child(even) > td {
+    background-color: lightcyan;
+}
+.odd { background-color: white; }
+.even { background-color: lightcyan; }
